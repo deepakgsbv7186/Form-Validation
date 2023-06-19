@@ -33,7 +33,8 @@
           <label for="lname">Last Name</label>
           <input type="text" autocomplete="off" style="text-transform:capitalize" class="col-75" id="lname" name="lname"
             placeholder="No last name, please type one dot(.) character only." maxlength="20"
-            onkeydown="return (()=>{(/[a-zA-Z]/.test(event.key)?true:false)})" />
+            onkeydown="return /[a-zA-Z.]/.test(event.key)" />
+          <!-- onkeydown="return (()=>{(/[a-zA-Z]/.test(event.key)?true:false)})" /> -->
         </div>
         <span id="lnameMessage" class="msg__style"></span>
       </div>
@@ -50,7 +51,7 @@
         <div>
           <label for="uEmail">Email</label>
           <input type="text" autocomplete="off" class="col-75" id="uEmail" name="uEmail"
-            placeholder="example@domain.com" onkeydown="return event.key !== ' '" />
+            placeholder="example@domain.com" onkeydown="return /[a-zA-Z0-9_.@]/.test(event.key)" />
         </div>
         <span id="uEmailMessage" class="msg__style"></span>
       </div>
@@ -76,7 +77,8 @@
           <div class="contactInput">
             <input type="text" id="prefixSpan" name="prefixSpan" disabled />
             <input type="text" autocomplete="off" class="col-75" id="uContactNumber" name="uContactNumber"
-              placeholder="Default length as selected country..." pattern="\d*" />
+              placeholder="Default length as selected country..."
+              onkeydown="return (/[0-9]/.test(event.key)) || (event.key === 'Backspace')" />
           </div>
         </div>
         <span id="uNumberMessage" class="msg__style"></span>
@@ -104,7 +106,7 @@
       <div class="row">
         <div>
           <label for="dob">Date Of Birth</label>
-          <input type="date" id="dob" class="col-75" min="1950-01-01" max="2010-12-31" placeholder="dd-mm-yyyy"
+          <input type="date" id="dob" class="col-75" min="1970-01-01" max="2020-12-31" placeholder="dd-mm-yyyy"
             required>
         </div>
         <span id="dobMessage" class="msg__style"></span>
@@ -129,7 +131,7 @@
         <div>
           <label for="address">Address</label>
           <input type="text" autocomplete="off" class="col-75" id="address" name="address"
-            placeholder="Please fill your full address." maxlength="100" />
+            placeholder="Please fill your full address." maxlength="80" />
         </div>
         <span id="addressMessage" class="msg__style"></span>
       </div>
@@ -154,7 +156,7 @@
         <div>
           <label for="pincode">Pin Code</label>
           <input type="text" autocomplete="off" class="col-75" id="pincode" name="pincode" placeholder="6 Digits"
-            maxlength="6" onkeydown="return event.key !== ' '" />
+            maxlength="6" onkeydown="return (/[0-9]/.test(event.key)) || (event.key === 'Backspace')" />
         </div>
         <span id="pincodeMessage" class="msg__style"></span>
       </div>

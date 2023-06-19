@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>replit</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Form Section -->
+    <main class="container">
+        <form class="main__form" onsubmit="return validateData();">
+            <!-- Form Title -->
+            <h2 style="color: white;text-align: center;font-weight: 800;">FORM VALIDATION</h2>
+            <!-- First Name -->
+            <div class="row">
+                <div>
+                    <label for="fname">First Name</label>
+                    <input type="text" autocomplete="off" style="text-transform:capitalize" class="col-75" id="fname"
+                        name="fname" placeholder="First Name.." maxlength="20"
+                        onkeydown="return /[a-zA-Z]/.test(event.key)" />
+                </div>
+                <span id="fnameMessage" class="msg__style"></span>
+            </div>
+
+            <!-- Form Buttons -->
+            <div class="btn">
+                <button type="reset" style="margin-top: 20px;">Reset</button>
+                <button type="submit" style="margin-top: 20px;">Submit</button>
+            </div>
+        </form>
+    </main>
+    <script src="test.js"></script>
+</body>
+
+</html>

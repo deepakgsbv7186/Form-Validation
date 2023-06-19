@@ -7,10 +7,31 @@ let isContact = false;
 let isPassword = false;
 let isConfirmPassword = false;
 let isDOB = false;
+let isAddress = false;
 let isCity = false;
 let isPincode = false;
 let isImage = false;
 let isDOC = false;
+
+// store values in object
+const userInfo = {
+  firstName: "",
+  lastName: "",
+  fullName: "",
+  email: "",
+  country: "",
+  contact: "",
+  password: "",
+  dob: "",
+  gender: "",
+  address: "",
+  city: "",
+  pincode: "",
+  profilePic: "",
+  document: "",
+  backgroundColor: "",
+  message: "",
+};
 
 // First Name
 const fname = document.getElementById("fname");
@@ -54,16 +75,11 @@ lname.addEventListener("input", () => {
 
   if (lValue === "") {
     lname.setAttribute("maxlength", 20);
-    lname.setAttribute("onkeydown", "return (event.key !== ' ')");
     msg(error, lnameMessage, "Last name is required.");
     isLname = false;
   } else if (lValue[0] === ".") {
     msg(success, lnameMessage, "Last name is valid.");
     lname.setAttribute("maxlength", "1");
-    lname.setAttribute(
-      "onkeydown",
-      "return (event.key !== ' ') && (event.key !== '.')"
-    );
     isLname = true;
   } else if (!isNaN(lValue)) {
     msg(error, lnameMessage, "Only alphabets are allowed.");
@@ -94,14 +110,17 @@ function updateFullName() {
   let fullName = "";
   const f_name =
     fname.value.trim().charAt(0).toUpperCase() + fname.value.trim().slice(1);
+  userInfo.firstName = f_name;
   if (lname.value.trim().charAt(0) === ".") {
     fullName = f_name;
   } else {
     const l_name =
       lname.value.trim().charAt(0).toUpperCase() + lname.value.trim().slice(1);
+    userInfo.lastName = l_name;
     fullName = `${f_name} ${l_name}`;
   }
   fullNameInput.value = fullName;
+  userInfo.fullName = fullName;
 }
 
 // Email
@@ -109,27 +128,30 @@ const uEmail = document.getElementById("uEmail");
 const uEmailMessage = document.getElementById("uEmailMessage");
 uEmail.addEventListener("input", () => {
   const value = uEmail.value.trim();
-  const regex = /^[a-z0-9_.]+@[a-z]+\.[a-z]{2,3}$/;
+  const regex = /^[a-z0-9_.]+@[a-z]+\.[a-z]{2,3}(\.[a-z]{2})?$/;
 
   if (value === "") {
     msg(error, uEmailMessage, "Email is required.");
-    isEmail = false;
-  } else if (
-    value[0] == "@" ||
-    value[0] == "#" ||
-    value[0] == "$" ||
-    value[0] == "%" ||
-    value[0] == "&" ||
-    value[0] == "^"
-  ) {
-    msg(error, uEmailMessage, "No special character at first letter.");
-    isEmail = false;
-  } else if (!regex.test(value)) {
-    msg(error, uEmailMessage, "Email is invalid. ex: example@domain.com");
+    uEmail.setAttribute("onkeydown", "return /[a-zA-Z0-9_.@]/.test(event.key)");
     isEmail = false;
   } else {
-    msg(success, uEmailMessage, "Valid Email.");
-    isEmail = true;
+    if (value.includes("@") && regex.test(value)) {
+      uEmail.setAttribute("onkeydown", "return /[a-zA-Z0-9.]/.test(event.key)");
+      msg(success, uEmailMessage, `Valid Email.`);
+      userInfo.email = value;
+      isEmail = true;
+    } else {
+      msg(
+        error,
+        uEmailMessage,
+        "Email is invalid. Correct Format: example@domain.com or example@domain.xyz.co"
+      );
+      uEmail.setAttribute(
+        "onkeydown",
+        "return /[a-zA-Z0-9_.@]/.test(event.key)"
+      );
+      isEmail = false;
+    }
   }
 });
 
@@ -172,15 +194,15 @@ const prefixSpan = document.getElementById("prefixSpan");
 let phonePrefix = "";
 uCountry.addEventListener("change", () => {
   const code = uCountry.value;
-  console.log(code);
   selectedCountry = countries.filter((country) => country.countryCode === code);
 
-  const { countryCode, phoneCode, phoneDigitLength } = selectedCountry[0];
-  console.log(selectedCountry, phoneCode, countryCode);
+  const { countryName, countryCode, phoneCode, phoneDigitLength } =
+    selectedCountry[0];
   if (selectedCountry) {
     uContactNumber.setAttribute("maxlength", phoneDigitLength);
     prefixSpan.value = phoneCode;
     phonePrefix = phoneCode;
+    userInfo.country = countryName;
     isCountry = true;
   } else {
     uContactNumber.removeAttribute("maxlength");
@@ -190,12 +212,16 @@ uCountry.addEventListener("change", () => {
 // Contact Number
 uContactNumber.addEventListener("input", () => {
   let contactNumber = uContactNumber.value;
-  const numberWithPrefix = `${phonePrefix} ${contactNumber}`;
+  // const numberWithPrefix = `${phonePrefix} ${contactNumber}`;
   if (contactNumber === "") {
     msg(error, uNumberMessage, "Contact number is required.");
     isContact = false;
   } else if (contactNumber[0] == "0") {
-    msg(error, uNumberMessage, "Number starts with zero, please check.");
+    msg(
+      error,
+      uNumberMessage,
+      "Could not starts with zero, please check again."
+    );
     isContact = false;
   } else if (
     contactNumber.length !== parseInt(uContactNumber.getAttribute("maxlength"))
@@ -208,9 +234,9 @@ uContactNumber.addEventListener("input", () => {
     isContact = false;
   } else {
     msg(success, uNumberMessage, "Contact number is valid.");
+    userInfo.contact = `${phonePrefix} ${contactNumber}`;
     isContact = true;
   }
-  console.log(numberWithPrefix);
 });
 
 // Password
@@ -243,7 +269,6 @@ const cPassword = document.getElementById("cPassword");
 const cPasswordMessage = document.getElementById("cPasswordMessage");
 cPassword.addEventListener("input", () => {
   const password = cPassword.value;
-  console.log(`p: ${uPassword.value} c: ${password}`);
   if (password === "") {
     msg(error, cPasswordMessage, "Confirm password is required.");
     isConfirmPassword = false;
@@ -252,6 +277,7 @@ cPassword.addEventListener("input", () => {
     isConfirmPassword = false;
   } else {
     msg(success, cPasswordMessage, "Passwords match.");
+    userInfo.password = password;
     isConfirmPassword = true;
   }
 });
@@ -261,12 +287,12 @@ const dob = document.getElementById("dob");
 const dobMessage = document.getElementById("dobMessage");
 dob.addEventListener("input", () => {
   const selectedDate = dob.value;
-  console.log(typeof selectedDate);
   if (selectedDate === "") {
     msg(error, dobMessage, "DOB is required.");
     isDOB = false;
-  } else if (selectedDate >= "1950-01-01" && selectedDate <= "2010-12-31") {
+  } else if (selectedDate >= "1970-01-01" && selectedDate <= "2020-12-31") {
     msg(success, dobMessage, "DOB is valid.");
+    userInfo.dob = selectedDate;
     isDOB = true;
   } else {
     msg(error, dobMessage, "Range: 1950-01-01 to 2010-12-31");
@@ -279,10 +305,22 @@ const genderInputs = document.querySelectorAll('input[name="gender"]');
 genderInputs.forEach((input) => {
   input.addEventListener("change", () => {
     const genderValue = input.value;
-    console.log(genderValue);
+    userInfo.gender = genderValue;
   });
 });
 
+// Address
+const addressInput = document.getElementById("address");
+addressInput.addEventListener("input", () => {
+  if (addressInput.value === "") {
+    msg(error, addressMessage, "Address is required.");
+    isAddress = false;
+  } else {
+    msg(success, addressMessage, "Valid Address.");
+    userInfo.address = addressInput.value;
+    isAddress = true;
+  }
+});
 // City
 const cities = [
   {
@@ -335,7 +373,6 @@ cityInput.addEventListener("change", () => {
         msg(error, pincodeMessage, "Pincode is required.");
         isPincode = false;
       } else {
-        console.log(regEx.test(pincode));
         if (regEx.test(pincode)) {
           msg(success, pincodeMessage, "Pincode is valid.");
           isPincode = true;
@@ -430,6 +467,9 @@ function validateData() {
   } else if (!isDOB) {
     alert("Please check the DOB input.");
     return false;
+  } else if (!isAddress) {
+    alert("Please check the Address.");
+    return false;
   } else if (!isCity) {
     alert("Please check the City input.");
     return false;
@@ -443,8 +483,9 @@ function validateData() {
     alert("Please check the Identity Document.");
     return false;
   } else {
+    console.log(userInfo);
     confirm("Form validated and submitted successfully.");
-    return true;
+    return false;
   }
 }
 
