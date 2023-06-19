@@ -1,0 +1,190 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Hind", sans-serif;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin-top: 8vh;
+}
+
+.container .main__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 600px;
+  height: auto;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(to right, #30a2ff, white);
+  margin-bottom: 8vh;
+}
+
+/* Display message to user */
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+.msg__style {
+  margin-top: 2px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.main__form .btn {
+  width: 100%;
+  display: flex;
+}
+
+.main__form .btn button[type="reset"],
+.main__form .btn button[type="submit"] {
+  width: 200px;
+  border-radius: 0.5rem;
+  outline: none;
+  padding: 0.2rem 0;
+  color: white;
+  font-weight: bolder;
+  font-size: 1rem;
+  text-align: center;
+  margin: 5px auto;
+  cursor: pointer;
+}
+
+.main__form .btn button[type="reset"] {
+  background: transparent;
+  border: 2px solid white;
+}
+
+.main__form .btn button[type="submit"] {
+  background: #0079ff;
+  border: none;
+}
+
+.main__form .btn button[type="reset"]:hover,
+.main__form .btn button[type="submit"]:hover {
+  color: white;
+  transition: 1s ease;
+}
+
+.main__form .btn button[type="reset"]:hover {
+  background: lightcoral;
+}
+
+.main__form .btn button[type="submit"]:hover {
+  background: #00dfa2;
+}
+
+.main__form .row {
+  margin-top: 8px;
+}
+
+.main__form .col-25 {
+  width: 25%;
+  margin-top: 2px;
+}
+
+.main__form .col-75 {
+  width: 100%;
+  margin-top: 2px;
+}
+
+.main__form label {
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.main__form input[type="text"],
+.main__form input[type="number"],
+.main__form input[type="date"],
+.main__form select,
+.main__form textarea {
+  border-radius: 5px;
+  border: none;
+  padding: 4px 0 4px 8px;
+  font-size: 1rem;
+}
+
+.main__form input[type="color"] {
+  border-radius: 5px;
+  border: none;
+  padding: none;
+  outline: none;
+  margin: none;
+}
+
+.main__form #fullName {
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 600;
+}
+
+.main__form .contactInput {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.main__form #prefixSpan {
+  width: 50px;
+  color: white;
+  font-weight: 600;
+}
+
+.main__form #uContactNumber {
+  flex: 1 90%;
+}
+
+.main__form .radio-button input[type="radio"] {
+  display: none;
+}
+
+.main__form .radio-button label {
+  display: inline-block;
+  background-color: rgba(0, 121, 255, 0.5);
+  padding: 3px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.main__form .radio-button input[type="radio"]:checked + label {
+  background-color: white;
+  color: #0079ff;
+}
+
+.main__form .policydiv {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.main__form #picturePreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.main__form .showPicture {
+  vertical-align: middle;
+  object-fit: cover;
+  width: 200px;
+  border-radius: 5px;
+}

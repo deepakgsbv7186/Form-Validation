@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Form Section -->
+  <main class="container">
+    <form class="main__form" onsubmit="return validateData();">
+      <!-- Form Title -->
+      <h2 style="color: white;text-align: center;font-weight: 800;">FORM VALIDATION</h2>
+      <!-- First Name -->
+      <div class="row">
+        <div>
+          <label for="fname">First Name</label>
+          <input type="text" autocomplete="off" style="text-transform:capitalize" class="col-75" id="fname" name="fname"
+            placeholder="First Name.." maxlength="20" onkeydown="return /[a-zA-Z]/.test(event.key)" />
+        </div>
+        <span id="fnameMessage" class="msg__style"></span>
+      </div>
+      <!-- Last Name -->
+      <div class="row">
+        <div>
+          <label for="lname">Last Name</label>
+          <input type="text" autocomplete="off" style="text-transform:capitalize" class="col-75" id="lname" name="lname"
+            placeholder="No last name, please type one dot(.) character only." maxlength="20"
+            onkeydown="return (()=>{(/[a-zA-Z]/.test(event.key)?true:false)})" />
+        </div>
+        <span id="lnameMessage" class="msg__style"></span>
+      </div>
+      <!-- Full Name -->
+      <div class="row">
+        <div>
+          <label for="fullName">Full Name</label>
+          <input type="text" class="col-75" id="fullName" name="fullName" minlength="2" maxlength="40" disabled />
+        </div>
+        <span id="fullNameMessage" class="msg__style"></span>
+      </div>
+      <!-- Email -->
+      <div class="row">
+        <div>
+          <label for="uEmail">Email</label>
+          <input type="text" autocomplete="off" class="col-75" id="uEmail" name="uEmail"
+            placeholder="example@domain.com" onkeydown="return event.key !== ' '" />
+        </div>
+        <span id="uEmailMessage" class="msg__style"></span>
+      </div>
+      <!-- Country -->
+      <div class="row">
+        <div>
+          <label for="uCountry">Country</label>
+          <select style="width: 100%;" class="col-75" id="uCountry" name="uCountry" required>
+            <option value="" selected>Select Your Country</option>
+            <option value="in">India</option>
+            <option value="us">USA</option>
+            <option value="jp">Japan</option>
+            <option value="ch">China</option>
+            <option value="sl">Sri Lanka</option>
+          </select>
+        </div>
+        <span id="uCountryMessage" class="msg__style"></span>
+      </div>
+      <!-- Mobile Number -->
+      <div class="row">
+        <div>
+          <label for="uContactNumber">Contact Number</label>
+          <div class="contactInput">
+            <input type="text" id="prefixSpan" name="prefixSpan" disabled />
+            <input type="text" autocomplete="off" class="col-75" id="uContactNumber" name="uContactNumber"
+              placeholder="Default length as selected country..." pattern="\d*" />
+          </div>
+        </div>
+        <span id="uNumberMessage" class="msg__style"></span>
+      </div>
+      <!-- Password -->
+      <div class="row">
+        <div>
+          <label for="uPassword">Password</label>
+          <input type="text" autocomplete="off" class="col-75" id="uPassword" name="uPassword"
+            placeholder="Combination of alphanumeric and special characters." minlength="8" maxlength="30"
+            onkeydown="return event.key !== ' '" />
+        </div>
+        <span id="uPasswordMessage" class="msg__style"></span>
+      </div>
+      <!-- Confirm Password -->
+      <div class="row">
+        <div>
+          <label for="cPassword">Confirm Password</label>
+          <input type="text" autocomplete="off" class="col-75" id="cPassword" name="cPassword"
+            placeholder="Must be same as above password." onkeydown="return event.key !== ' '" />
+        </div>
+        <span id="cPasswordMessage" class="msg__style"></span>
+      </div>
+      <!-- Date of Birth -->
+      <div class="row">
+        <div>
+          <label for="dob">Date Of Birth</label>
+          <input type="date" id="dob" class="col-75" min="1950-01-01" max="2010-12-31" placeholder="dd-mm-yyyy"
+            required>
+        </div>
+        <span id="dobMessage" class="msg__style"></span>
+      </div>
+      <!-- Gender -->
+      <div class="row">
+        <div>
+          <label>Gender</label>
+          <div class="radio-button" id="gender">
+            <input type="radio" id="male" name="radios" name="gender" value="male" checked>
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="radios" name="gender" value="female">
+            <label for="female">Female</label>
+            <input type="radio" id="others" name="radios" name="gender" value="others">
+            <label for="others">Others</label>
+          </div>
+        </div>
+        <span id="genderMessage" class="msg__style"></span>
+      </div>
+      <!-- Address -->
+      <div class="row">
+        <div>
+          <label for="address">Address</label>
+          <input type="text" autocomplete="off" class="col-75" id="address" name="address"
+            placeholder="Please fill your full address." maxlength="100" />
+        </div>
+        <span id="addressMessage" class="msg__style"></span>
+      </div>
+      <!-- City -->
+      <div class="row">
+        <div>
+          <label for="city">Most Popular Indian City</label>
+          <select style="width: 100%;" class="col-75" id="city" name="city" required>
+            <option value="" selected>Choose</option>
+            <option value="dl">Delhi</option>
+            <option value="mh">Mumbai</option>
+            <option value="rj">Jaipur</option>
+            <option value="wb">Kolkata</option>
+            <option value="tn">Bengaluru</option>
+            <option value="gj">Surat</option>
+          </select>
+        </div>
+        <span id="cityMessage" class="msg__style"></span>
+      </div>
+      <!-- Pin Code -->
+      <div class="row">
+        <div>
+          <label for="pincode">Pin Code</label>
+          <input type="text" autocomplete="off" class="col-75" id="pincode" name="pincode" placeholder="6 Digits"
+            maxlength="6" onkeydown="return event.key !== ' '" />
+        </div>
+        <span id="pincodeMessage" class="msg__style"></span>
+      </div>
+      <!-- Profile Picture -->
+      <div class="row">
+        <div>
+          <label for="profilePic">Upload Profile Picture (.jpg/.jpeg)</label>
+          <input type="file" class="col-75" id="profilePic" name="profilePic" onchange="return pictureUpload();"
+            required />
+        </div>
+        <span id="profilePicMessage" class="msg__style"></span>
+        <div id="picturePreview"></div>
+      </div>
+      <!-- Identity -->
+      <div class="row">
+        <div>
+          <label for="idDoc">Identity Document (.pdf)</label>
+          <input type="file" class="col-75" id="idDoc" name="idDoc" onchange="return docUpload();" required />
+        </div>
+        <span id="idDocMessage" class="msg__style"></span>
+        <!-- <div id="imagePreview" class="image-preview-div"></div> -->
+      </div>
+      <!-- Pick Color -->
+      <div class="row">
+        <div>
+          <label for="pickColor">Change Background Color</label>
+          <input type="color" class="col-75" id="pickColor" name="pickColor" value="#ffffff" />
+        </div>
+        <span id="pickColorMessage" class="msg__style"></span>
+      </div>
+      <!-- Message -->
+      <div class="row">
+        <div>
+          <label for="message">Your Message (Optional)</label>
+          <textarea type="text" autocomplete="off" class="col-75" id="message" cols="30" rows="5" name="message"
+            placeholder="We would love to hear your thoughts." style="resize: vertical;"></textarea>
+        </div>
+        <span id="msgMessage" class="msg__style"></span>
+      </div>
+      <!-- Policy -->
+      <div class="row">
+        <div class="policydiv">
+          <input type="checkbox" id="policy" name="policy" required />
+          <label for="policy">I agree with the terms and conditions*</label>
+        </div>
+        <span id="policyMessage" class="msg__style"></span>
+      </div>
+      <!-- Form Buttons -->
+      <div class="btn">
+        <button type="reset" style="margin-top: 20px;">Reset</button>
+        <button type="submit" style="margin-top: 20px;">Submit</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- <script src="Javascript_Test.js"></script> -->
+  <script src="script.js"></script>
+  <!-- <script src="https://replit.com/public/js/replit-badge-v2.js" theme="dark" position="bottom-right"></script> -->
+</body>
+
+</html>
