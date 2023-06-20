@@ -43,6 +43,9 @@ fname.addEventListener("input", () => {
   if (fValue === "") {
     msg(error, fnameMessage, "First name is required.");
     isFname = false;
+  } else if (fValue === lname.value) {
+    msg(error, fnameMessage, "First name can't be same as last name.");
+    isFname = false;
   } else if (!isNaN(fValue[0])) {
     msg(error, fnameMessage, "Only alphabets are allowed.");
     isFname = false;
@@ -75,12 +78,16 @@ lname.addEventListener("input", () => {
 
   if (lValue === "") {
     lname.setAttribute("maxlength", 20);
+    lname.setAttribute("onkeydown", "return /[a-zA-Z.]/.test(event.key)");
     msg(error, lnameMessage, "Last name is required.");
     isLname = false;
   } else if (lValue[0] === ".") {
     msg(success, lnameMessage, "Last name is valid.");
     lname.setAttribute("maxlength", "1");
     isLname = true;
+  } else if (lValue === fname.value) {
+    msg(error, lnameMessage, "Last name can't be same as first name.");
+    isLname = false;
   } else if (!isNaN(lValue)) {
     msg(error, lnameMessage, "Only alphabets are allowed.");
     isLname = false;
@@ -95,6 +102,7 @@ lname.addEventListener("input", () => {
     );
     isLname = false;
   } else if (regex.test(lValue)) {
+    lname.setAttribute("onkeydown", "return /[a-zA-Z]/.test(event.key)");
     msg(success, lnameMessage, "Last name is valid.");
     isLname = true;
   } else {
@@ -109,13 +117,15 @@ const fullNameInput = document.getElementById("fullName");
 function updateFullName() {
   let fullName = "";
   const f_name =
-    fname.value.trim().charAt(0).toUpperCase() + fname.value.trim().slice(1);
+    fname.value.trim().charAt(0).toUpperCase() +
+    fname.value.trim().slice(1).toLowerCase();
   userInfo.firstName = f_name;
   if (lname.value.trim().charAt(0) === ".") {
     fullName = f_name;
   } else {
     const l_name =
-      lname.value.trim().charAt(0).toUpperCase() + lname.value.trim().slice(1);
+      lname.value.trim().charAt(0).toUpperCase() +
+      lname.value.trim().slice(1).toLowerCase();
     userInfo.lastName = l_name;
     fullName = `${f_name} ${l_name}`;
   }
@@ -140,6 +150,13 @@ uEmail.addEventListener("input", () => {
       msg(success, uEmailMessage, `Valid Email.`);
       userInfo.email = value;
       isEmail = true;
+    } else if (value.includes("@")) {
+      msg(error, uEmailMessage, `Valid is not Email.`);
+      uEmail.setAttribute(
+        "onkeydown",
+        "return /[a-zA-Z0-9._]/.test(event.key)"
+      );
+      isEmail = false;
     } else {
       msg(
         error,
@@ -196,8 +213,7 @@ uCountry.addEventListener("change", () => {
   const code = uCountry.value;
   selectedCountry = countries.filter((country) => country.countryCode === code);
 
-  const { countryName, countryCode, phoneCode, phoneDigitLength } =
-    selectedCountry[0];
+  const { countryName, phoneCode, phoneDigitLength } = selectedCountry[0];
   if (selectedCountry) {
     uContactNumber.setAttribute("maxlength", phoneDigitLength);
     prefixSpan.value = phoneCode;
@@ -281,6 +297,23 @@ cPassword.addEventListener("input", () => {
     isConfirmPassword = true;
   }
 });
+// show or hide password
+const showHide = document.getElementById("showHide");
+let passwordVisible = false;
+showHide.addEventListener("click", () => {
+  if (passwordVisible) {
+    uPassword.type = "text";
+    cPassword.type = "text";
+    showHide.value = "Hide Password";
+    passwordVisible = false;
+  } else {
+    uPassword.type = "password";
+    cPassword.type = "password";
+    showHide.value = "Show Password";
+    passwordVisible = true;
+  }
+});
+// showHide.addEventListener("click",isVisible);
 
 // DOB Picker
 const dob = document.getElementById("dob");
@@ -303,7 +336,7 @@ dob.addEventListener("input", () => {
 // Gender
 const genderInputs = document.querySelectorAll('input[name="gender"]');
 genderInputs.forEach((input) => {
-  input.addEventListener("change", () => {
+  input.addEventListener("click", () => {
     const genderValue = input.value;
     userInfo.gender = genderValue;
   });
@@ -321,6 +354,7 @@ addressInput.addEventListener("input", () => {
     isAddress = true;
   }
 });
+
 // City
 const cities = [
   {
@@ -359,15 +393,15 @@ const cityInput = document.getElementById("city");
 cityInput.addEventListener("change", () => {
   const code = cityInput.value;
   selectedCity = cities.filter((city) => city.cityCode === code);
-
+  const { city, regEx } = selectedCity[0];
   if (selectedCity.length > 0) {
+    userInfo.city = city;
     isCity = true;
 
     // Pincode
     const pincodeInput = document.getElementById("pincode");
     const pincodeMessage = document.getElementById("pincodeMessage");
     pincodeInput.addEventListener("input", () => {
-      const { regEx } = selectedCity[0];
       const pincode = pincodeInput.value;
       if (pincode === "") {
         msg(error, pincodeMessage, "Pincode is required.");
@@ -375,6 +409,7 @@ cityInput.addEventListener("change", () => {
       } else {
         if (regEx.test(pincode)) {
           msg(success, pincodeMessage, "Pincode is valid.");
+          userInfo.pincode = pincode;
           isPincode = true;
         } else {
           msg(error, pincodeMessage, "Pincode not belong to this area.");
@@ -411,6 +446,7 @@ function pictureUpload() {
       };
       reader.readAsDataURL(fileInput.files[0]);
       msg(success, profilePicMessage, "Valid Picture.");
+      userInfo.profilePic = filePath;
       isImage = true;
     }
   }
@@ -429,6 +465,7 @@ function docUpload() {
     return false;
   } else {
     msg(success, idDocMessage, "Identity Valid.");
+    userInfo.document = filePath;
     isDOC = true;
   }
 }
@@ -439,6 +476,14 @@ const body = document.body;
 pickColor.addEventListener("input", () => {
   const color = pickColor.value;
   body.style.backgroundColor = color;
+  userInfo.backgroundColor = color;
+});
+
+// Message
+const messageInput = document.getElementById("message");
+messageInput.addEventListener("input", () => {
+  const message = messageInput.value;
+  userInfo.message = message;
 });
 
 // Validate Function
